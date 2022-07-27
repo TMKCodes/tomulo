@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/tomulo.dir/src/application.cpp.o CMakeFiles/tomulo.dir/src/device.cpp.o CMakeFiles/tomulo.dir/src/main.cpp.o CMakeFiles/tomulo.dir/src/renderer.cpp.o CMakeFiles/tomulo.dir/src/window.cpp.o -o tomulo  /usr/lib/libglfw.so.3.3 /lib/libvulkan.so 
