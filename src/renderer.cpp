@@ -5,6 +5,7 @@ namespace tomulo {
     Renderer::Renderer(int height, int width, std::string name, bool fullscreen) {
         window = new tomulo::Window(height, width, name, fullscreen);
         createInstance();
+        validation = new tomulo::Validation(instance);
         createSurface();
         device = new tomulo::Device(instance, surface);
         swapchain = new tomulo::SwapChain(window, device, surface);
@@ -17,11 +18,14 @@ namespace tomulo {
         delete window;
     }
     void Renderer::createInstance() {
+        if(enableValidationLayers && !validation->checkLayerSupport()) {
+            throw std::runtime_error("validation layers requested, but not available!");
+        }
         VkApplicationInfo appInfo{};
         appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-        appInfo.pApplicationName = "No Name";
+        appInfo.pApplicationName = "Lollero";
         appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
-        appInfo.pEngineName = "No Engine";
+        appInfo.pEngineName = "Tomulo";
         appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
         appInfo.apiVersion = VK_API_VERSION_1_0;
 
@@ -34,11 +38,18 @@ namespace tomulo {
         createInfo.ppEnabledExtensionNames = extensions.data();
 
         VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
-        createInfo.enabledLayerCount = 0;
-        createInfo.pNext = nullptr;
+        if(enableValidationLayers) {
+            createInfo.enabledLayerCount = static_cast<uint32_t>(validation->layers.size());
+            createInfo.ppEnabledLayerNames = validation->layers.data();
+            validation->populateDebugMessengerCreateInfo(debugCreateInfo);
+            createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debugCreateInfo;
+        } else {
+            createInfo.enabledLayerCount = 0;
+            createInfo.pNext = nullptr;
+        }
 
         if(vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
-            throw std::runtime_error("Failed to create Vulkan instance!");
+            throw std::runtime_error("Failed to create instance!");
         }
     }
     void Renderer::createSurface() {
@@ -61,6 +72,9 @@ namespace tomulo {
         const char** glfwExtensions;
         glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
         std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+        if(enableValidationLayers) {
+            extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+        }
         return extensions;
     }
     bool Renderer::shouldClose() {

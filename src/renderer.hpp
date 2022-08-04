@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cstring>
 
+#include "validation.hpp"
 #include "window.hpp"
 #include "device.hpp"
 #include "swapchain.hpp"
@@ -20,6 +21,7 @@ namespace tomulo {
             bool shouldClose();
         private:
             tomulo::Window* window;
+            tomulo::Validation* validation;
             tomulo::Device* device;
             tomulo::SwapChain* swapchain;
             VkInstance instance;
