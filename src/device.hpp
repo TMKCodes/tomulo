@@ -7,6 +7,7 @@
 #include <iostream>
 #include <set>
 
+#include "debugger.hpp"
 #include "support.hpp"
 
 namespace tomulo {

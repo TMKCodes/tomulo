@@ -6,9 +6,11 @@
 #include <iostream>
 #include <cstring>
 
+#include "debugger.hpp"
 #include "window.hpp"
 #include "device.hpp"
 #include "swapchain.hpp"
+
 
 
 namespace tomulo {
@@ -20,21 +22,16 @@ namespace tomulo {
             bool shouldClose();
         private:
             tomulo::Window* window;
-            //tomulo::Validation* validation;
+            tomulo::DebugMessenger* debugger;
             tomulo::Device* device;
             tomulo::SwapChain* swapchain;
             VkInstance instance;
             VkSurfaceKHR surface;
-            VkDebugUtilsMessengerEXT debugMessenger;
 
             void createSurface();
             void createValidation();
             bool checkValidationLayerSupport();
             void createInstance();
             std::vector<const char*> getRequiredExtensions();
-            const std::vector<const char*> validationLayers = {
-                "VK_LAYER_KHRONOS_validation"
-            };
-            
     };
 }
