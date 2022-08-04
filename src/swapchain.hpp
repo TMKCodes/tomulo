@@ -22,6 +22,9 @@ namespace tomulo {
             tomulo::Device* device;
             VkSurfaceKHR surface;
             VkSwapchainKHR swapchain;
+            std::vector<VkImage> swapchainImages;
+            VkFormat swapchainImageFormat;
+            VkExtent2D swapchainExtent;
             VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats);
             VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes);
             VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities);

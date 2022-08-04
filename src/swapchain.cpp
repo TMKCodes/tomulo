@@ -43,6 +43,12 @@ namespace tomulo {
         if(vkCreateSwapchainKHR(device->logical(), &createInfo, nullptr, &swapchain) != VK_SUCCESS) {
             throw std::runtime_error("Failed to create swap chain!");
         }
+
+        vkGetSwapchainImagesKHR(device->logical(), swapchain, &imageCount, nullptr);
+        swapchainImages.resize(imageCount);
+        vkGetSwapchainImagesKHR(device->logical(), swapchain, &imageCount, swapchainImages.data());
+        swapchainImageFormat = surfaceFormat.format;
+        swapchainExtent = extent;
     }
     SwapChain::~SwapChain() {
         vkDestroySwapchainKHR(device->logical(), swapchain, nullptr);
