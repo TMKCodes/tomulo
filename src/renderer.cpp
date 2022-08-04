@@ -9,6 +9,7 @@ namespace tomulo {
         createSurface();
         device = new tomulo::Device(instance, surface);
         swapchain = new tomulo::SwapChain(window, device, surface);
+        imageView = new tomulo::View(device, swapchain->getSwapchainImages(), swapchain->getSwapchainImageFormat()); 
     }
     Renderer::~Renderer() {
         delete swapchain;

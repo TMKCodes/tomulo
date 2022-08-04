@@ -17,6 +17,8 @@ namespace tomulo {
         public:
             SwapChain(tomulo::Window* window, tomulo::Device* device, VkSurfaceKHR& surface);
             ~SwapChain();
+            std::vector<VkImage> getSwapchainImages();
+            VkFormat getSwapchainImageFormat();
         private:
             tomulo::Window* window;
             tomulo::Device* device;

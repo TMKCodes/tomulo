@@ -10,6 +10,7 @@
 #include "window.hpp"
 #include "device.hpp"
 #include "swapchain.hpp"
+#include "view.hpp"
 
 
 
@@ -25,6 +26,7 @@ namespace tomulo {
             tomulo::DebugMessenger* debugger;
             tomulo::Device* device;
             tomulo::SwapChain* swapchain;
+            tomulo::View* imageView;
             VkInstance instance;
             VkSurfaceKHR surface;
 
