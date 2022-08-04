@@ -7,8 +7,10 @@ namespace tomulo {
         createInstance();
         createSurface();
         device = new tomulo::Device(instance, surface);
+        swapchain = new tomulo::SwapChain(window, device, surface);
     }
     Renderer::~Renderer() {
+        delete swapchain;
         delete device;
         vkDestroySurfaceKHR(instance, surface, nullptr);
         vkDestroyInstance(instance, nullptr);

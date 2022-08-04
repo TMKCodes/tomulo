@@ -8,6 +8,7 @@
 
 #include "window.hpp"
 #include "device.hpp"
+#include "swapchain.hpp"
 
 
 namespace tomulo {
@@ -20,6 +21,7 @@ namespace tomulo {
         private:
             tomulo::Window* window;
             tomulo::Device* device;
+            tomulo::SwapChain* swapchain;
             VkInstance instance;
             VkSurfaceKHR surface;
 

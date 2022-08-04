@@ -64,13 +64,22 @@ namespace tomulo {
     Device::~Device() {
         vkDestroyDevice(device, nullptr);
     }
-    VkDevice Device::get() {
+    VkDevice Device::logical() {
         return device;
+    }
+    VkPhysicalDevice Device::physical() {
+        return physicalDevice;
     }
     bool Device::isSuitable(VkPhysicalDevice device) {
         QueueFamilyIndices indices = findQueueFamilies(device);
         bool extensionsSupported = checkDeviceExtensionSupport(device);
-        return indices.isComplete() && extensionsSupported;
+        bool swapChainAdequate = false;
+        if(extensionsSupported) {
+            Support support;
+            Support::SwapChainSupportDetails swapChainSupport = support.querySwapChainSupport(device, surface);
+            swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentModes.empty();
+        }
+        return indices.isComplete() && extensionsSupported && swapChainAdequate;
     }
     bool Device::checkDeviceExtensionSupport(VkPhysicalDevice device) {
         uint32_t extensionCount;
@@ -78,6 +87,7 @@ namespace tomulo {
 
         std::vector<VkExtensionProperties> availableExtensions(extensionCount);
         vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
+        
         std::set<std::string> requiredExtensions(deviceExtensions.begin(), deviceExtensions.end());
         for(const auto& extension : availableExtensions) {
             requiredExtensions.erase(extension.extensionName);
