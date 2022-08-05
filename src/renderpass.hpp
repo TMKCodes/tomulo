@@ -10,6 +10,7 @@ namespace Tomulo {
         public:
             Renderpass(Tomulo::Device* device, VkFormat imageFormat);
             ~Renderpass();
+            VkRenderPass get();
         private:
             Tomulo::Device* device;
             VkRenderPass renderpass;

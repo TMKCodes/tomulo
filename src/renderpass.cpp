@@ -35,4 +35,7 @@ namespace Tomulo {
     Renderpass::~Renderpass() {
         vkDestroyRenderPass(device->logical(), renderpass, nullptr);
     }
+    VkRenderPass Renderpass::get() {
+        return renderpass;
+    }
 }

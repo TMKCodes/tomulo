@@ -11,7 +11,7 @@ namespace Tomulo {
         swapchain = new Tomulo::SwapChain(window, device, surface);
         imageView = new Tomulo::View(device, swapchain->getSwapchainImages(), swapchain->getSwapchainImageFormat()); 
         renderpass = new Tomulo::Renderpass(device, swapchain->getSwapchainImageFormat());
-        pipeline = new Tomulo::Pipeline(device);
+        pipeline = new Tomulo::Pipeline(device, renderpass);
     }
     Renderer::~Renderer() {
         delete pipeline;
