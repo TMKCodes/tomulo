@@ -1,8 +1,8 @@
-#include "view.hpp"
+#include "views.hpp"
 
 
 namespace Tomulo {
-    View::View(Tomulo::Device* device, std::vector<VkImage> images, VkFormat imageFormat) : device{device} {
+    Views::Views(Tomulo::Device* device, std::vector<VkImage> images, VkFormat imageFormat) : device{device} {
         views.resize(images.size());
         for(size_t i = 0; i < images.size(); i++) {
             VkImageViewCreateInfo createInfo{};
@@ -24,9 +24,12 @@ namespace Tomulo {
             }
         }
     }
-    View::~View() {
+    Views::~Views() {
         for(auto view : views) {
             vkDestroyImageView(device->logical(), view, nullptr);
         }
+    }
+    std::vector<VkImageView> Views::get() {
+        return views;
     }
 }

@@ -9,9 +9,10 @@ namespace Tomulo {
         createSurface();
         device = new Tomulo::Device(instance, surface);
         swapchain = new Tomulo::SwapChain(window, device, surface);
-        imageView = new Tomulo::View(device, swapchain->getSwapchainImages(), swapchain->getSwapchainImageFormat()); 
+        imageViews = new Tomulo::Views(device, swapchain->getSwapchainImages(), swapchain->getSwapchainImageFormat()); 
         renderpass = new Tomulo::Renderpass(device, swapchain->getSwapchainImageFormat());
         pipeline = new Tomulo::Pipeline(device, renderpass);
+        framebuffers = new Tomulo::Framebuffers(device, renderpass, swapchain, imageViews);
     }
     Renderer::~Renderer() {
         delete pipeline;

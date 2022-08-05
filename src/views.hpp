@@ -9,10 +9,11 @@
 #include "device.hpp"
 
 namespace Tomulo {
-    class View {
+    class Views {
         public:
-            View(Tomulo::Device* device, std::vector<VkImage> images, VkFormat imageFormat);
-            ~View();
+            Views(Tomulo::Device* device, std::vector<VkImage> images, VkFormat imageFormat);
+            ~Views();
+            std::vector<VkImageView> get();
         private:
             Tomulo::Device* device;
             std::vector<VkImageView> views;

@@ -19,6 +19,7 @@ namespace Tomulo {
             ~SwapChain();
             std::vector<VkImage> getSwapchainImages();
             VkFormat getSwapchainImageFormat();
+            VkExtent2D getSwapchainExtent();
         private:
             Tomulo::Window* window;
             Tomulo::Device* device;

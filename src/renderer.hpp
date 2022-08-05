@@ -10,9 +10,10 @@
 #include "window.hpp"
 #include "device.hpp"
 #include "swapchain.hpp"
-#include "view.hpp"
+#include "views.hpp"
 #include "renderpass.hpp"
 #include "pipeline.hpp"
+#include "framebuffers.hpp"
 
 
 
@@ -28,9 +29,10 @@ namespace Tomulo {
             Tomulo::DebugMessenger* debugger;
             Tomulo::Device* device;
             Tomulo::SwapChain* swapchain;
-            Tomulo::View* imageView;
+            Tomulo::Views* imageViews;
             Tomulo::Renderpass* renderpass;
             Tomulo::Pipeline* pipeline;
+            Tomulo::Framebuffers* framebuffers;
             VkInstance instance;
             VkSurfaceKHR surface;
 
