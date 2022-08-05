@@ -10,6 +10,7 @@ namespace tomulo {
         device = new tomulo::Device(instance, surface);
         swapchain = new tomulo::SwapChain(window, device, surface);
         imageView = new tomulo::View(device, swapchain->getSwapchainImages(), swapchain->getSwapchainImageFormat()); 
+        renderpass = new tomulo::Renderpass(device, swapchain->getSwapchainImageFormat());
         pipeline = new tomulo::Pipeline(device);
     }
     Renderer::~Renderer() {
