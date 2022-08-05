@@ -19,5 +19,6 @@ namespace tomulo {
             VkShaderModule createShaderModule(const std::vector<char>& code);
             VkShaderModule vertShaderModule;
             VkShaderModule fragShaderModule;
+            VkPipelineLayout pipelineLayout;
     };
 }
