@@ -11,6 +11,7 @@
 #include "device.hpp"
 #include "swapchain.hpp"
 #include "view.hpp"
+#include "pipeline.hpp"
 
 
 
@@ -27,6 +28,7 @@ namespace tomulo {
             tomulo::Device* device;
             tomulo::SwapChain* swapchain;
             tomulo::View* imageView;
+            tomulo::Pipeline* pipeline;
             VkInstance instance;
             VkSurfaceKHR surface;
 

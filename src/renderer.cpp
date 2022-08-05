@@ -10,8 +10,10 @@ namespace tomulo {
         device = new tomulo::Device(instance, surface);
         swapchain = new tomulo::SwapChain(window, device, surface);
         imageView = new tomulo::View(device, swapchain->getSwapchainImages(), swapchain->getSwapchainImageFormat()); 
+        pipeline = new tomulo::Pipeline(device);
     }
     Renderer::~Renderer() {
+        delete pipeline;
         delete swapchain;
         delete device;
         delete debugger;
