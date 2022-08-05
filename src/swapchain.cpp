@@ -1,7 +1,7 @@
 #include "swapchain.hpp"
 
-namespace tomulo {
-    SwapChain::SwapChain(tomulo::Window* window, tomulo::Device* device, VkSurfaceKHR& surface) : window{window}, device{device}, surface{surface} {
+namespace Tomulo {
+    SwapChain::SwapChain(Tomulo::Window* window, Tomulo::Device* device, VkSurfaceKHR& surface) : window{window}, device{device}, surface{surface} {
         Support support;
         Support::SwapChainSupportDetails swapChainSupport = support.querySwapChainSupport(device->physical(), surface);
 

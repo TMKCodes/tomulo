@@ -5,7 +5,7 @@
 #include "application.hpp"
 
 int main() {
-    tomulo::Application app;
+    Tomulo::Application app;
     try {
         app.run();
     } catch (const std::exception& e) {

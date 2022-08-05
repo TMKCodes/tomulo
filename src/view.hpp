@@ -8,13 +8,13 @@
 
 #include "device.hpp"
 
-namespace tomulo {
+namespace Tomulo {
     class View {
         public:
-            View(tomulo::Device* device, std::vector<VkImage> images, VkFormat imageFormat);
+            View(Tomulo::Device* device, std::vector<VkImage> images, VkFormat imageFormat);
             ~View();
         private:
-            tomulo::Device* device;
+            Tomulo::Device* device;
             std::vector<VkImageView> views;
     };
 }

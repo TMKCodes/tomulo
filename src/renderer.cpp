@@ -1,17 +1,17 @@
 #include "renderer.hpp"
 
 
-namespace tomulo {
+namespace Tomulo {
     Renderer::Renderer(int height, int width, std::string name, bool fullscreen) {
-        window = new tomulo::Window(height, width, name, fullscreen);
+        window = new Tomulo::Window(height, width, name, fullscreen);
         createInstance();
-        debugger = new tomulo::DebugMessenger(instance);
+        debugger = new Tomulo::DebugMessenger(instance);
         createSurface();
-        device = new tomulo::Device(instance, surface);
-        swapchain = new tomulo::SwapChain(window, device, surface);
-        imageView = new tomulo::View(device, swapchain->getSwapchainImages(), swapchain->getSwapchainImageFormat()); 
-        renderpass = new tomulo::Renderpass(device, swapchain->getSwapchainImageFormat());
-        pipeline = new tomulo::Pipeline(device);
+        device = new Tomulo::Device(instance, surface);
+        swapchain = new Tomulo::SwapChain(window, device, surface);
+        imageView = new Tomulo::View(device, swapchain->getSwapchainImages(), swapchain->getSwapchainImageFormat()); 
+        renderpass = new Tomulo::Renderpass(device, swapchain->getSwapchainImageFormat());
+        pipeline = new Tomulo::Pipeline(device);
     }
     Renderer::~Renderer() {
         delete pipeline;

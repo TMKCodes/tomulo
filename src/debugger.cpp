@@ -1,6 +1,6 @@
 #include "debugger.hpp"
 
-namespace tomulo {
+namespace Tomulo {
     DebugMessenger::DebugMessenger(VkInstance& instance) : instance{instance} {
         if(!enableValidationLayers) return;
         populateDebugMessengerCreateInfo(createInfo);

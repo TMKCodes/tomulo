@@ -7,5 +7,5 @@ mv shaders/vert.spv build/shaders/vert.spv
 mv shaders/frag.spv build/shaders/frag.spv
 cd build
 cmake -S ../ -B .
-make && ./tomulo
+make && ./Tomulo
 cd ..

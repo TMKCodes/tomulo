@@ -12,16 +12,16 @@
 #include "window.hpp"
 #include "device.hpp"
 
-namespace tomulo {
+namespace Tomulo {
     class SwapChain {
         public:
-            SwapChain(tomulo::Window* window, tomulo::Device* device, VkSurfaceKHR& surface);
+            SwapChain(Tomulo::Window* window, Tomulo::Device* device, VkSurfaceKHR& surface);
             ~SwapChain();
             std::vector<VkImage> getSwapchainImages();
             VkFormat getSwapchainImageFormat();
         private:
-            tomulo::Window* window;
-            tomulo::Device* device;
+            Tomulo::Window* window;
+            Tomulo::Device* device;
             VkSurfaceKHR surface;
             VkSwapchainKHR swapchain;
             std::vector<VkImage> swapchainImages;

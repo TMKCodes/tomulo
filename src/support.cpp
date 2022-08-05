@@ -1,7 +1,7 @@
 #include "support.hpp"
 
 
-namespace tomulo {
+namespace Tomulo {
 
     Support::SwapChainSupportDetails Support::querySwapChainSupport(VkPhysicalDevice device, VkSurfaceKHR &surface) {
         SwapChainSupportDetails details;

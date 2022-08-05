@@ -11,7 +11,7 @@ Currently supporting building only from Linux with cmake.
 
 1. Clone the repository:
 ```
-git clone https://github.com/TMKCodes/tomulo.git
+git clone https://github.com/TMKCodes/Tomulo.git
 ```
 
 3. Build and run the projcet:

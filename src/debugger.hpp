@@ -18,7 +18,7 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityF
     return VK_FALSE;
 }
 
-namespace tomulo {
+namespace Tomulo {
 
     const std::vector<const char*> validationLayers = {
         "VK_LAYER_KHRONOS_validation"

@@ -5,13 +5,13 @@
 
 #include "device.hpp"
 
-namespace tomulo {
+namespace Tomulo {
     class Renderpass {
         public:
-            Renderpass(tomulo::Device* device, VkFormat imageFormat);
+            Renderpass(Tomulo::Device* device, VkFormat imageFormat);
             ~Renderpass();
         private:
-            tomulo::Device* device;
+            Tomulo::Device* device;
             VkRenderPass renderpass;
     };
 }

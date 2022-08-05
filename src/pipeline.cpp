@@ -1,7 +1,7 @@
 #include "pipeline.hpp"
 
-namespace tomulo {
-    Pipeline::Pipeline(tomulo::Device* device) : device{device} {
+namespace Tomulo {
+    Pipeline::Pipeline(Tomulo::Device* device) : device{device} {
         auto vertShaderCode = readShader("shaders/vert.spv");
         auto fragShaderCode = readShader("shaders/frag.spv");
         vertShaderModule = createShaderModule(vertShaderCode);

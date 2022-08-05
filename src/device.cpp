@@ -1,6 +1,6 @@
 #include "device.hpp"
 
-namespace tomulo {
+namespace Tomulo {
     Device::Device(VkInstance &instance, VkSurfaceKHR &surface) : instance {instance}, surface{surface} {
         pickPhyiscalDevice();
         createLogicalDevice();

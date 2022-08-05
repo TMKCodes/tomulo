@@ -1,7 +1,7 @@
 #include "renderpass.hpp"
 
-namespace tomulo {
-    Renderpass::Renderpass(tomulo::Device* device, VkFormat imageFormat) : device{device} {
+namespace Tomulo {
+    Renderpass::Renderpass(Tomulo::Device* device, VkFormat imageFormat) : device{device} {
         VkAttachmentDescription colorAttachment{};
         colorAttachment.format = imageFormat;
         colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;

@@ -6,7 +6,7 @@
 #include <iostream>
 #include <set>
 
-namespace tomulo {
+namespace Tomulo {
     class Support {
         public:
             struct SwapChainSupportDetails {

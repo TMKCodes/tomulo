@@ -1,8 +1,8 @@
 #include "view.hpp"
 
 
-namespace tomulo {
-    View::View(tomulo::Device* device, std::vector<VkImage> images, VkFormat imageFormat) : device{device} {
+namespace Tomulo {
+    View::View(Tomulo::Device* device, std::vector<VkImage> images, VkFormat imageFormat) : device{device} {
         views.resize(images.size());
         for(size_t i = 0; i < images.size(); i++) {
             VkImageViewCreateInfo createInfo{};

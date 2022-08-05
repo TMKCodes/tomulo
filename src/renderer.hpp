@@ -16,7 +16,7 @@
 
 
 
-namespace tomulo {
+namespace Tomulo {
     class Renderer {
         public:
             Renderer(int height, int width, std::string name, bool fullscreen);
@@ -24,13 +24,13 @@ namespace tomulo {
             void printExtensions();
             bool shouldClose();
         private:
-            tomulo::Window* window;
-            tomulo::DebugMessenger* debugger;
-            tomulo::Device* device;
-            tomulo::SwapChain* swapchain;
-            tomulo::View* imageView;
-            tomulo::Renderpass* renderpass;
-            tomulo::Pipeline* pipeline;
+            Tomulo::Window* window;
+            Tomulo::DebugMessenger* debugger;
+            Tomulo::Device* device;
+            Tomulo::SwapChain* swapchain;
+            Tomulo::View* imageView;
+            Tomulo::Renderpass* renderpass;
+            Tomulo::Pipeline* pipeline;
             VkInstance instance;
             VkSurfaceKHR surface;
 

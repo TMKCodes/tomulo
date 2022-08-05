@@ -1,6 +1,6 @@
 #include "window.hpp"
 
-namespace tomulo {
+namespace Tomulo {
     Window::Window(int width, int height, std::string name, bool fullscreen) {
         glfwInit();
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);

@@ -8,13 +8,13 @@
 #include "device.hpp"
 
 
-namespace tomulo {
+namespace Tomulo {
     class Pipeline {
         public:
-            Pipeline(tomulo::Device* device);
+            Pipeline(Tomulo::Device* device);
             ~Pipeline();
         private:
-            tomulo::Device* device;
+            Tomulo::Device* device;
             std::vector<char> readShader(const std::string& filename);
             VkShaderModule createShaderModule(const std::vector<char>& code);
             VkShaderModule vertShaderModule;

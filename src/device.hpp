@@ -10,7 +10,7 @@
 #include "debugger.hpp"
 #include "support.hpp"
 
-namespace tomulo {
+namespace Tomulo {
     class Device {
         public:
             Device(VkInstance &instance, VkSurfaceKHR &surface);

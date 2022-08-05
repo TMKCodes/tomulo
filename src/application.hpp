@@ -6,7 +6,7 @@
 #include <string>
 #include "renderer.hpp"
 
-namespace tomulo {
+namespace Tomulo {
     class Application {
         public:
             Application();
@@ -14,6 +14,6 @@ namespace tomulo {
 
             void run();
         private:
-            tomulo::Renderer* renderer;
+            Tomulo::Renderer* renderer;
     };
 }

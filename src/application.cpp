@@ -1,8 +1,8 @@
 #include "application.hpp"
 
-namespace tomulo {
+namespace Tomulo {
     Application::Application() {
-        renderer = new tomulo::Renderer(800, 600, "Tomulo Engine", false);
+        renderer = new Tomulo::Renderer(800, 600, "Tomulo Engine", false);
         // Optionally print extensions.
         renderer->printExtensions();
     }
