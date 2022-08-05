@@ -11,10 +11,10 @@ Currently supporting building only from Linux with cmake.
 
 1. Dependancies:
     The engine and building it depends on the following projects.
-        * Vulkan -- Graphics pipeline
-        * GLFW -- For window creation
-        * GLM -- 3D mathematics
-        * CMAKE -- Building
+    * Vulkan -- Graphics pipeline
+    * GLFW -- For window creation
+    * GLM -- 3D mathematics
+    * CMAKE -- Building
 
     Which you can install in Arch based Wayland distributions with the following command:
     ```
