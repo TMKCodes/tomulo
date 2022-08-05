@@ -9,12 +9,43 @@ Thanks.
 
 Currently supporting building only from Linux with cmake. 
 
-1. Clone the repository:
-```
-git clone https://github.com/TMKCodes/Tomulo.git
-```
+1. Dependancies:
+    The engine and building it depends on the following projects.
+        * Vulkan -- Graphics pipeline
+        * GLFW -- For window creation
+        * GLM -- 3D mathematics
+        * CMAKE -- Building
 
-3. Build and run the projcet:
-```
-sh tomulo-linux.sh
-```
+    Which you can install in Arch based Wayland distributions with the following command:
+    ```
+    pamac install vulkan-tools vulkan-validation-layers glfw-wayland glm cmake
+    ```
+
+
+2. Clone the repository:
+    ```
+    git clone https://github.com/TMKCodes/Tomulo.git
+    ```
+
+3. Build and run the project with Linux distribution of your choice:
+
+    First you need to compile the shaders:
+    ```
+    glslc shaders/shader.vert -o shaders/vert.spv
+    glslc shaders/shader.frag -o shaders/frag.spv
+    ```
+
+    Then build with cmake:
+    ```
+    cmake -S . -B .
+    ```
+
+    Then build with make:
+    ```
+    make
+    ```
+
+    Then run:
+    ```
+    ./Tomulo
+    ```
