@@ -13,9 +13,18 @@ namespace Tomulo {
         renderpass = new Tomulo::Renderpass(device, swapchain->getSwapchainImageFormat());
         pipeline = new Tomulo::Pipeline(device, renderpass);
         framebuffers = new Tomulo::Framebuffers(device, renderpass, swapchain, imageViews);
+        commandpool = new Tomulo::CommandPool(device);
+        commandbuffer = new Tomulo::CommandBuffer(device, swapchain, renderpass, pipeline, framebuffers, commandpool);
+        synobjects = new Tomulo::SynObjects(device);
     }
     Renderer::~Renderer() {
+        delete synobjects;
+        delete commandbuffer;
+        delete commandpool;
+        delete framebuffers;
         delete pipeline;
+        delete renderpass;
+        delete imageViews;
         delete swapchain;
         delete device;
         delete debugger;
@@ -85,5 +94,49 @@ namespace Tomulo {
     }
     bool Renderer::shouldClose() {
         return window->shouldClose();
+    }
+    void Renderer::drawFrame() {
+        vkWaitForFences(device->logical(), 1, &synobjects->inFlightFence, VK_TRUE, UINT64_MAX);
+        vkResetFences(device->logical(), 1, &synobjects->inFlightFence);
+
+        uint32_t imageIndex;
+        vkAcquireNextImageKHR(device->logical(), swapchain->get(), UINT64_MAX, synobjects->imageAvailableSemaphore, VK_NULL_HANDLE, &imageIndex);
+
+        commandbuffer->reset();
+        commandbuffer->record(imageIndex);
+
+        VkSubmitInfo submitInfo{};
+        submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+        VkSemaphore waitSemaphores[] = {synobjects->imageAvailableSemaphore};
+        VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
+        submitInfo.waitSemaphoreCount = 1;
+        submitInfo.pWaitSemaphores = waitSemaphores;
+        submitInfo.pWaitDstStageMask = waitStages;
+
+        submitInfo.commandBufferCount = 1;
+        VkCommandBuffer commandBuffer = commandbuffer->get();
+        submitInfo.pCommandBuffers = &commandBuffer;
+
+        VkSemaphore signalSemaphores[] = {synobjects->renderFinishedSemaphore};
+        submitInfo.signalSemaphoreCount = 1;
+        submitInfo.pSignalSemaphores = signalSemaphores;
+
+        if (vkQueueSubmit(device->graphicsQueue, 1, &submitInfo, synobjects->inFlightFence) != VK_SUCCESS) {
+            throw std::runtime_error("Failed to submit draw command buffer!");
+        }
+
+        VkPresentInfoKHR presentInfo{};
+        presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+
+        presentInfo.waitSemaphoreCount = 1;
+        presentInfo.pWaitSemaphores = signalSemaphores;
+
+        VkSwapchainKHR swapChains[] = {swapchain->get()};
+        presentInfo.swapchainCount = 1;
+        presentInfo.pSwapchains = swapChains;
+
+        presentInfo.pImageIndices = &imageIndex;
+
+        vkQueuePresentKHR(device->presentQueue, &presentInfo);
     }
 }

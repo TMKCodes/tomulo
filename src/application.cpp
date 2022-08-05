@@ -14,6 +14,7 @@ namespace Tomulo {
     void Application::run() {
         while(!renderer->shouldClose()) {
             glfwPollEvents();
+            renderer->drawFrame();
         }
     }
 }

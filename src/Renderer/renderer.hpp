@@ -14,6 +14,8 @@
 #include "renderpass.hpp"
 #include "pipeline.hpp"
 #include "framebuffers.hpp"
+#include "command.hpp"
+#include "synobjects.hpp"
 
 
 
@@ -24,6 +26,7 @@ namespace Tomulo {
             ~Renderer();
             void printExtensions();
             bool shouldClose();
+            void drawFrame();
         private:
             Tomulo::Window* window;
             Tomulo::DebugMessenger* debugger;
@@ -33,6 +36,9 @@ namespace Tomulo {
             Tomulo::Renderpass* renderpass;
             Tomulo::Pipeline* pipeline;
             Tomulo::Framebuffers* framebuffers;
+            Tomulo::CommandPool* commandpool;
+            Tomulo::CommandBuffer* commandbuffer;
+            Tomulo::SynObjects* synobjects;
             VkInstance instance;
             VkSurfaceKHR surface;
 

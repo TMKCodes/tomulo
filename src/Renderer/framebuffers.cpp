@@ -28,4 +28,7 @@ namespace Tomulo {
             vkDestroyFramebuffer(device->logical(), framebuffer, nullptr);
         }
     }
+    std::vector<VkFramebuffer> Framebuffers::get() {
+        return framebuffers;
+    }
 }

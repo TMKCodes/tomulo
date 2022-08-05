@@ -159,4 +159,7 @@ namespace Tomulo {
         }
         return shaderModule;
     }
+    VkPipeline Pipeline::get() {
+        return graphicsPipeline;
+    }
 }

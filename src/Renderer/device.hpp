@@ -25,6 +25,8 @@ namespace Tomulo {
                 }
             };
             QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+            VkQueue graphicsQueue;
+            VkQueue presentQueue;
         private:
             void pickPhyiscalDevice();
             void createLogicalDevice();
@@ -32,8 +34,6 @@ namespace Tomulo {
             VkSurfaceKHR surface;
             VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
             VkDevice device;
-            VkQueue graphicsQueue;
-            VkQueue presentQueue;
             bool isSuitable(VkPhysicalDevice device);
             const std::vector<const char*> deviceExtensions = {
                 VK_KHR_SWAPCHAIN_EXTENSION_NAME

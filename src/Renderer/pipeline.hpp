@@ -14,6 +14,7 @@ namespace Tomulo {
         public:
             Pipeline(Tomulo::Device* device, Tomulo::Renderpass* renderpass);
             ~Pipeline();
+            VkPipeline get();
         private:
             Tomulo::Device* device;
             Tomulo::Renderpass* renderpass;

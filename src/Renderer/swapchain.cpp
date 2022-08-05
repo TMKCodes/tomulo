@@ -53,6 +53,9 @@ namespace Tomulo {
     SwapChain::~SwapChain() {
         vkDestroySwapchainKHR(device->logical(), swapchain, nullptr);
     }
+    VkSwapchainKHR SwapChain::get() {
+        return swapchain;
+    }
     std::vector<VkImage> SwapChain::getSwapchainImages() {
         return swapchainImages;
     }
