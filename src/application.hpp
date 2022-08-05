@@ -4,7 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <string>
-#include "renderer.hpp"
+#include "Renderer/renderer.hpp"
 
 namespace Tomulo {
     class Application {

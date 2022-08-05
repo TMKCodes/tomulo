@@ -25,7 +25,7 @@ namespace Tomulo {
     }
     Framebuffers::~Framebuffers() {
         for(auto framebuffer: framebuffers) {
-            vkDestroyFrameBuffer(device->logical(), framebuffer, nullptr);
+            vkDestroyFramebuffer(device->logical(), framebuffer, nullptr);
         }
     }
 }
