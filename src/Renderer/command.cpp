@@ -19,32 +19,33 @@ namespace Tomulo {
         return commandPool;
     }
 
-    CommandBuffer::CommandBuffer(Tomulo::Device* device, Tomulo::SwapChain* swapchain, Tomulo::Renderpass* renderpass, Tomulo::Pipeline* pipeline, Tomulo::Framebuffers* framebuffers, Tomulo::CommandPool* commandpool) : device{device}, swapchain{swapchain}, renderpass{renderpass}, pipeline{pipeline}, framebuffers{framebuffers}, commandpool{commandpool} {
+    CommandBuffers::CommandBuffers(Tomulo::Device* device, Tomulo::SwapChain* swapchain, Tomulo::Renderpass* renderpass, Tomulo::Pipeline* pipeline, Tomulo::Framebuffers* framebuffers, Tomulo::CommandPool* commandpool) : device{device}, swapchain{swapchain}, renderpass{renderpass}, pipeline{pipeline}, framebuffers{framebuffers}, commandpool{commandpool} {
+        commandBuffers.resize(MAX_FRAMES_IN_FLIGHT);
         VkCommandBufferAllocateInfo allocInfo{};
         allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
         allocInfo.commandPool = commandpool->get();
         allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-        allocInfo.commandBufferCount = 1;
-        if(vkAllocateCommandBuffers(device->logical(), &allocInfo, &commandBuffer) != VK_SUCCESS) {
+        allocInfo.commandBufferCount = (uint32_t) commandBuffers.size();
+        if(vkAllocateCommandBuffers(device->logical(), &allocInfo, commandBuffers.data()) != VK_SUCCESS) {
             throw std::runtime_error("Failed to allocate command buffer!");
         }
     }
-    CommandBuffer::~CommandBuffer() {
+    CommandBuffers::~CommandBuffers() {
 
     }
-    VkCommandBuffer CommandBuffer::get() {
-        return commandBuffer;
+    VkCommandBuffer CommandBuffers::get(uint32_t currentFrame) {
+        return commandBuffers[currentFrame];
     }
-    void CommandBuffer::reset() {
-        vkResetCommandBuffer(commandBuffer, 0);
+    void CommandBuffers::reset(uint32_t currentFrame) {
+        vkResetCommandBuffer(commandBuffers[currentFrame], 0);
     }
-    void CommandBuffer::record(uint32_t imageIndex) {
+    void CommandBuffers::record(uint32_t currentFrame, uint32_t imageIndex) {
         VkExtent2D swapchainExtent = swapchain->getSwapchainExtent();
         std::vector<VkFramebuffer> swapchainFramebuffers = framebuffers->get();
         VkCommandBufferBeginInfo beginInfo{};
         beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 
-        if (vkBeginCommandBuffer(commandBuffer, &beginInfo) != VK_SUCCESS) {
+        if (vkBeginCommandBuffer(commandBuffers[currentFrame], &beginInfo) != VK_SUCCESS) {
             throw std::runtime_error("Failed to begin recording command buffer!");
         }
         VkRenderPassBeginInfo renderPassInfo{};
@@ -58,9 +59,9 @@ namespace Tomulo {
         renderPassInfo.clearValueCount = 1;
         renderPassInfo.pClearValues = &clearColor;
 
-        vkCmdBeginRenderPass(commandBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+        vkCmdBeginRenderPass(commandBuffers[currentFrame], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-            vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->get());
+            vkCmdBindPipeline(commandBuffers[currentFrame], VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline->get());
 
             VkViewport viewport{};
             viewport.x = 0.0f;
@@ -69,18 +70,18 @@ namespace Tomulo {
             viewport.height = (float) swapchainExtent.height;
             viewport.minDepth = 0.0f;
             viewport.maxDepth = 1.0f;
-            vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
+            vkCmdSetViewport(commandBuffers[currentFrame], 0, 1, &viewport);
 
             VkRect2D scissor{};
             scissor.offset = {0, 0};
             scissor.extent = swapchainExtent;
-            vkCmdSetScissor(commandBuffer, 0, 1, &scissor);            
+            vkCmdSetScissor(commandBuffers[currentFrame], 0, 1, &scissor);            
 
-            vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+            vkCmdDraw(commandBuffers[currentFrame], 3, 1, 0, 0);
 
-        vkCmdEndRenderPass(commandBuffer);
+        vkCmdEndRenderPass(commandBuffers[currentFrame]);
 
-        if (vkEndCommandBuffer(commandBuffer) != VK_SUCCESS) {
+        if (vkEndCommandBuffer(commandBuffers[currentFrame]) != VK_SUCCESS) {
             throw std::runtime_error("Failed to record command buffer!");
         }
     }

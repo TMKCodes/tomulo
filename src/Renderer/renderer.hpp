@@ -37,10 +37,11 @@ namespace Tomulo {
             Tomulo::Pipeline* pipeline;
             Tomulo::Framebuffers* framebuffers;
             Tomulo::CommandPool* commandpool;
-            Tomulo::CommandBuffer* commandbuffer;
+            Tomulo::CommandBuffers* commandbuffers;
             Tomulo::SynObjects* synobjects;
             VkInstance instance;
             VkSurfaceKHR surface;
+            uint32_t currentFrame = 0;
 
             void createSurface();
             void createValidation();

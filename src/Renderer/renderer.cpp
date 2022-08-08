@@ -14,12 +14,12 @@ namespace Tomulo {
         pipeline = new Tomulo::Pipeline(device, renderpass);
         framebuffers = new Tomulo::Framebuffers(device, renderpass, swapchain, imageViews);
         commandpool = new Tomulo::CommandPool(device);
-        commandbuffer = new Tomulo::CommandBuffer(device, swapchain, renderpass, pipeline, framebuffers, commandpool);
+        commandbuffers = new Tomulo::CommandBuffers(device, swapchain, renderpass, pipeline, framebuffers, commandpool);
         synobjects = new Tomulo::SynObjects(device);
     }
     Renderer::~Renderer() {
         delete synobjects;
-        delete commandbuffer;
+        delete commandbuffers;
         delete commandpool;
         delete framebuffers;
         delete pipeline;
@@ -96,32 +96,32 @@ namespace Tomulo {
         return window->shouldClose();
     }
     void Renderer::drawFrame() {
-        vkWaitForFences(device->logical(), 1, &synobjects->inFlightFence, VK_TRUE, UINT64_MAX);
-        vkResetFences(device->logical(), 1, &synobjects->inFlightFence);
+        vkWaitForFences(device->logical(), 1, &synobjects->inFlightFences[currentFrame], VK_TRUE, UINT64_MAX);
+        vkResetFences(device->logical(), 1, &synobjects->inFlightFences[currentFrame]);
 
         uint32_t imageIndex;
-        vkAcquireNextImageKHR(device->logical(), swapchain->get(), UINT64_MAX, synobjects->imageAvailableSemaphore, VK_NULL_HANDLE, &imageIndex);
+        vkAcquireNextImageKHR(device->logical(), swapchain->get(), UINT64_MAX, synobjects->imageAvailableSemaphores[currentFrame], VK_NULL_HANDLE, &imageIndex);
 
-        commandbuffer->reset();
-        commandbuffer->record(imageIndex);
+        commandbuffers->reset(currentFrame);
+        commandbuffers->record(currentFrame, imageIndex);
 
         VkSubmitInfo submitInfo{};
         submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-        VkSemaphore waitSemaphores[] = {synobjects->imageAvailableSemaphore};
+        VkSemaphore waitSemaphores[] = {synobjects->imageAvailableSemaphores[currentFrame]};
         VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
         submitInfo.waitSemaphoreCount = 1;
         submitInfo.pWaitSemaphores = waitSemaphores;
         submitInfo.pWaitDstStageMask = waitStages;
 
         submitInfo.commandBufferCount = 1;
-        VkCommandBuffer commandBuffer = commandbuffer->get();
+        VkCommandBuffer commandBuffer = commandbuffers->get(currentFrame);
         submitInfo.pCommandBuffers = &commandBuffer;
 
-        VkSemaphore signalSemaphores[] = {synobjects->renderFinishedSemaphore};
+        VkSemaphore signalSemaphores[] = {synobjects->renderFinishedSemaphores[currentFrame]};
         submitInfo.signalSemaphoreCount = 1;
         submitInfo.pSignalSemaphores = signalSemaphores;
 
-        if (vkQueueSubmit(device->graphicsQueue, 1, &submitInfo, synobjects->inFlightFence) != VK_SUCCESS) {
+        if (vkQueueSubmit(device->graphicsQueue, 1, &submitInfo, synobjects->inFlightFences[currentFrame]) != VK_SUCCESS) {
             throw std::runtime_error("Failed to submit draw command buffer!");
         }
 
@@ -138,5 +138,6 @@ namespace Tomulo {
         presentInfo.pImageIndices = &imageIndex;
 
         vkQueuePresentKHR(device->presentQueue, &presentInfo);
+        currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
     }
 }

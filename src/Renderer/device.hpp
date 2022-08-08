@@ -10,6 +10,9 @@
 #include "debugger.hpp"
 #include "support.hpp"
 
+
+const int MAX_FRAMES_IN_FLIGHT = 2;
+
 namespace Tomulo {
     class Device {
         public:

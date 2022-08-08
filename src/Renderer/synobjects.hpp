@@ -2,6 +2,7 @@
 
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
+#include <vector>
 
 #include "device.hpp"
 
@@ -10,9 +11,9 @@ namespace Tomulo {
         public:
             SynObjects(Tomulo::Device* device);
             ~SynObjects();
-            VkSemaphore imageAvailableSemaphore;
-            VkSemaphore renderFinishedSemaphore;
-            VkFence inFlightFence;
+            std::vector<VkSemaphore> imageAvailableSemaphores;
+            std::vector<VkSemaphore> renderFinishedSemaphores;
+            std::vector<VkFence> inFlightFences;
         private:
             Tomulo::Device* device;
     };
