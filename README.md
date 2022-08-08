@@ -1,9 +1,15 @@
 # Tomulo
-I'm learning Vulkan 3D programming through [Vulkan tutorial](https://vulkan-tutorial.com/) to 
-create Open World Sandbox Massive Multiplayer First person shooter game. Which means this is
-a hobby project and I am not sure yet where or when or how or what. 
 
-Thanks.
+Tomulo is Vulkan C++ 3D Engine for Game programming. 
+
+# Background
+
+I've started learning Vulkan 3D programming through [Vulkan Tutorial](https://vulkan-tutorial.com/) and
+[Brendan Galea's videos](https://www.youtube.com/watch?v=Y9U9IE0gVHA&list=PL8327DO66nu9qYVKLDmdLW_84-yE4auCR) to upgrade my game development skills from 2D to 3D. Since it seems so hard to get work even as web developer.
+
+# Current status
+
+8.8.2022 Working on the basic functionality.  
 
 # Building
 
