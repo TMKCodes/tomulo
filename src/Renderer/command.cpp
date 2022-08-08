@@ -39,9 +39,7 @@ namespace Tomulo {
     void CommandBuffers::reset(uint32_t currentFrame) {
         vkResetCommandBuffer(commandBuffers[currentFrame], 0);
     }
-    void CommandBuffers::record(uint32_t currentFrame, uint32_t imageIndex) {
-        VkExtent2D swapchainExtent = swapchain->getSwapchainExtent();
-        std::vector<VkFramebuffer> swapchainFramebuffers = framebuffers->get();
+    void CommandBuffers::record(std::vector<VkFramebuffer> swapchainFrameBuffers, VkExtent2D swapchainExtent, uint32_t imageIndex, uint32_t currentFrame) {
         VkCommandBufferBeginInfo beginInfo{};
         beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 
@@ -51,7 +49,7 @@ namespace Tomulo {
         VkRenderPassBeginInfo renderPassInfo{};
         renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
         renderPassInfo.renderPass = renderpass->get();
-        renderPassInfo.framebuffer = swapchainFramebuffers[imageIndex];
+        renderPassInfo.framebuffer = swapchainFrameBuffers[imageIndex];
         renderPassInfo.renderArea.offset = {0, 0};
         renderPassInfo.renderArea.extent = swapchainExtent;
 

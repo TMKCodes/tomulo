@@ -95,15 +95,35 @@ namespace Tomulo {
     bool Renderer::shouldClose() {
         return window->shouldClose();
     }
+    void Renderer::recreateSwapchain() {
+        int width = 0, height = 0;
+        glfwGetFramebufferSize(window->get(), &width, &height);
+        while (width == 0 || height == 0) {
+            glfwGetFramebufferSize(window->get(), &width, &height);
+            glfwWaitEvents();
+        }
+        vkDeviceWaitIdle(device->logical());
+        delete framebuffers;
+        delete imageViews;
+        delete swapchain;
+        swapchain = new Tomulo::SwapChain(window, device, surface);
+        imageViews = new Tomulo::Views(device, swapchain->getSwapchainImages(), swapchain->getSwapchainImageFormat());
+        framebuffers = new Tomulo::Framebuffers(device, renderpass, swapchain, imageViews);
+    }
     void Renderer::drawFrame() {
         vkWaitForFences(device->logical(), 1, &synobjects->inFlightFences[currentFrame], VK_TRUE, UINT64_MAX);
+        uint32_t imageIndex;
+        VkResult result = vkAcquireNextImageKHR(device->logical(), swapchain->get(), UINT64_MAX, synobjects->imageAvailableSemaphores[currentFrame], VK_NULL_HANDLE, &imageIndex);
+        if(result == VK_ERROR_OUT_OF_DATE_KHR ) {
+            recreateSwapchain();
+            return;
+        } else if(result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
+            throw std::runtime_error("Failed to acquire swap chain image!");
+        }
         vkResetFences(device->logical(), 1, &synobjects->inFlightFences[currentFrame]);
 
-        uint32_t imageIndex;
-        vkAcquireNextImageKHR(device->logical(), swapchain->get(), UINT64_MAX, synobjects->imageAvailableSemaphores[currentFrame], VK_NULL_HANDLE, &imageIndex);
-
         commandbuffers->reset(currentFrame);
-        commandbuffers->record(currentFrame, imageIndex);
+        commandbuffers->record(framebuffers->get(), swapchain->getSwapchainExtent(), imageIndex, currentFrame);
 
         VkSubmitInfo submitInfo{};
         submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -137,7 +157,13 @@ namespace Tomulo {
 
         presentInfo.pImageIndices = &imageIndex;
 
-        vkQueuePresentKHR(device->presentQueue, &presentInfo);
+        result = vkQueuePresentKHR(device->presentQueue, &presentInfo);
+        if(result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || window->framebufferResized) {
+            window->framebufferResized = false;
+            recreateSwapchain();
+        } else if(result != VK_SUCCESS) {
+            throw std::runtime_error("Failed to present swapchain image!");
+        }
         currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
     }
 }

@@ -27,6 +27,7 @@ namespace Tomulo {
             void printExtensions();
             bool shouldClose();
             void drawFrame();
+            void recreateSwapchain();
         private:
             Tomulo::Window* window;
             Tomulo::DebugMessenger* debugger;

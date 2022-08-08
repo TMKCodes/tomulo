@@ -28,7 +28,7 @@ namespace Tomulo {
             ~CommandBuffers();
             VkCommandBuffer get(uint32_t currentFrame);
             void reset(uint32_t currentFrame);
-            void record(uint32_t currentFrame, uint32_t imageIndex);
+            void record(std::vector<VkFramebuffer> swapchainFrameBuffers, VkExtent2D swapchainExtent, uint32_t imageIndex, uint32_t currentFrame);
         private:
             Tomulo::Device* device;
             Tomulo::SwapChain* swapchain;
