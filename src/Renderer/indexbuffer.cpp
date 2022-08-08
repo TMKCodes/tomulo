@@ -1,30 +1,30 @@
-#include "vertexbuffer.hpp"
+#include "indexbuffer.hpp"
 
 namespace Tomulo {
-    VertexBuffer::VertexBuffer(Tomulo::Device* device, Tomulo::CommandPool* commandpool) : device{device}, commandpool{commandpool} {
-        bufferSize = sizeof(vertices[0]) * vertices.size();
-        
+    IndexBuffer::IndexBuffer(Tomulo::Device* device, Tomulo::CommandPool* commandpool) : device{device}, commandpool{commandpool} {
+        bufferSize = sizeof(indices[0]) * indices.size();
+
         stagingBuffer = new Tomulo::Buffer(device, bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
-        
+
         void* data;
         vkMapMemory(device->logical(), stagingBuffer->getMemory(), 0, bufferSize, 0, &data);
-            memcpy(data, vertices.data(), (size_t) bufferSize);
+        memcpy(data, indices.data(), (size_t) bufferSize);
         vkUnmapMemory(device->logical(), stagingBuffer->getMemory());
-        
-        vertexBuffer = new Tomulo::Buffer(device, bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+
+        indexBuffer = new Tomulo::Buffer(device, bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
         copyBuffer();
 
         vkDestroyBuffer(device->logical(), stagingBuffer->getBuffer(), nullptr);
         vkFreeMemory(device->logical(), stagingBuffer->getMemory(), nullptr);
     }
-    VertexBuffer::~VertexBuffer() {
-        delete vertexBuffer;
+    IndexBuffer::~IndexBuffer() {
+        delete indexBuffer;
         delete stagingBuffer;
     }
-    VkBuffer VertexBuffer::get() {
-        return vertexBuffer->getBuffer();
+    VkBuffer IndexBuffer::get() {
+        return indexBuffer->getBuffer();
     }
-    void VertexBuffer::copyBuffer() {
+    void IndexBuffer::copyBuffer() {
         VkCommandBufferAllocateInfo allocInfo{};
         allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
         allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
@@ -43,7 +43,7 @@ namespace Tomulo {
         copyRegion.srcOffset = 0;
         copyRegion.dstOffset = 0;
         copyRegion.size = bufferSize;
-        vkCmdCopyBuffer(commandBuffer, stagingBuffer->getBuffer(), vertexBuffer->getBuffer(), 1, &copyRegion);
+        vkCmdCopyBuffer(commandBuffer, stagingBuffer->getBuffer(), indexBuffer->getBuffer(), 1, &copyRegion);
 
         vkEndCommandBuffer(commandBuffer);
 

@@ -17,6 +17,7 @@
 #include "framebuffers.hpp"
 #include "commandpool.hpp"
 #include "vertexbuffer.hpp"
+#include "indexbuffer.hpp"
 #include "commandbuffer.hpp"
 #include "synobjects.hpp"
 
@@ -41,6 +42,7 @@ namespace Tomulo {
             Tomulo::Framebuffers* framebuffers;
             Tomulo::CommandPool* commandpool;
             Tomulo::VertexBuffer* vertexbuffer;
+            Tomulo::IndexBuffer* indexbuffer;
             Tomulo::CommandBuffers* commandbuffers;
             Tomulo::SynObjects* synobjects;
             VkInstance instance;

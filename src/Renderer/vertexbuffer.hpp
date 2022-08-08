@@ -35,16 +35,17 @@ namespace Tomulo {
             return attributeDescriptions;
         }
     };
-    const std::vector<Vertex> vertices = {
-        {{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-        {{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
-        {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
-    };
     class VertexBuffer {
         public:
             VertexBuffer(Tomulo::Device* device, Tomulo::CommandPool* commandpool);
             ~VertexBuffer();
             VkBuffer get();
+            std::vector<Vertex> vertices = {
+                {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+                {{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
+                {{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
+                {{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
+            };
         private:
             Tomulo::CommandPool* commandpool;
             Tomulo::Device* device;
