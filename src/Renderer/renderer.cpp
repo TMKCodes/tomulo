@@ -11,17 +11,21 @@ namespace Tomulo {
         swapchain = new Tomulo::SwapChain(window, device, surface);
         imageViews = new Tomulo::Views(device, swapchain->getSwapchainImages(), swapchain->getSwapchainImageFormat()); 
         renderpass = new Tomulo::Renderpass(device, swapchain->getSwapchainImageFormat());
-        pipeline = new Tomulo::Pipeline(device, renderpass);
+        descriptors = new Tomulo::Descriptors(device, 0, 1);
+        pipeline = new Tomulo::Pipeline(device, descriptors, renderpass);
         framebuffers = new Tomulo::Framebuffers(device, renderpass, swapchain, imageViews);
         commandpool = new Tomulo::CommandPool(device);
         vertexbuffer = new Tomulo::VertexBuffer(device, commandpool);
         indexbuffer = new Tomulo::IndexBuffer(device, commandpool);
+        uniformbuffers = new Tomulo::UniformBuffers(device);
         commandbuffers = new Tomulo::CommandBuffers(device, swapchain, renderpass, pipeline, framebuffers, commandpool);
         synobjects = new Tomulo::SynObjects(device);
     }
     Renderer::~Renderer() {
         delete synobjects;
         delete commandbuffers;
+        delete uniformbuffers;
+        delete indexbuffer;
         delete vertexbuffer;
         delete commandpool;
         delete framebuffers;
@@ -123,6 +127,7 @@ namespace Tomulo {
         } else if(result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
             throw std::runtime_error("Failed to acquire swap chain image!");
         }
+        uniformbuffers->UpdateUniformBuffer(swapchain->getSwapchainExtent(), currentFrame);
         vkResetFences(device->logical(), 1, &synobjects->inFlightFences[currentFrame]);
 
         commandbuffers->reset(currentFrame);

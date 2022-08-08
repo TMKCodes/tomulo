@@ -1,7 +1,7 @@
 #include "pipeline.hpp"
 
 namespace Tomulo {
-    Pipeline::Pipeline(Tomulo::Device* device, Tomulo::Renderpass* renderpass) : device{device}, renderpass{renderpass} {
+    Pipeline::Pipeline(Tomulo::Device* device, Tomulo::Descriptors* descriptors, Tomulo::Renderpass* renderpass) : device{device}, descriptors{descriptors}, renderpass{renderpass} {
         auto vertShaderCode = readShader("shaders/vert.spv");
         auto fragShaderCode = readShader("shaders/frag.spv");
         vertShaderModule = createShaderModule(vertShaderCode);
@@ -101,10 +101,9 @@ namespace Tomulo {
 
         VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
         pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-        pipelineLayoutInfo.setLayoutCount = 0;
-        pipelineLayoutInfo.pSetLayouts = nullptr;
-        pipelineLayoutInfo.pushConstantRangeCount = 0;
-        pipelineLayoutInfo.pPushConstantRanges = nullptr;
+        pipelineLayoutInfo.setLayoutCount = 1;
+        VkDescriptorSetLayout descriptorSetLayout = descriptors->get();
+        pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout;
 
         if(vkCreatePipelineLayout(device->logical(), &pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
             throw std::runtime_error("Failed to create pipeline layout!");

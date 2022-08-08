@@ -13,11 +13,13 @@
 #include "swapchain.hpp"
 #include "views.hpp"
 #include "renderpass.hpp"
+#include "descriptors.hpp"
 #include "pipeline.hpp"
 #include "framebuffers.hpp"
 #include "commandpool.hpp"
 #include "vertexbuffer.hpp"
 #include "indexbuffer.hpp"
+#include "uniformbuffers.hpp"
 #include "commandbuffer.hpp"
 #include "synobjects.hpp"
 
@@ -38,11 +40,13 @@ namespace Tomulo {
             Tomulo::SwapChain* swapchain;
             Tomulo::Views* imageViews;
             Tomulo::Renderpass* renderpass;
+            Tomulo::Descriptors* descriptors;
             Tomulo::Pipeline* pipeline;
             Tomulo::Framebuffers* framebuffers;
             Tomulo::CommandPool* commandpool;
             Tomulo::VertexBuffer* vertexbuffer;
             Tomulo::IndexBuffer* indexbuffer;
+            Tomulo::UniformBuffers* uniformbuffers;
             Tomulo::CommandBuffers* commandbuffers;
             Tomulo::SynObjects* synobjects;
             VkInstance instance;

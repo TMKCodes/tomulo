@@ -9,6 +9,7 @@
 
 
 #include "device.hpp"
+#include "descriptors.hpp"
 #include "renderpass.hpp"
 #include "commandpool.hpp"
 #include "vertexbuffer.hpp"
@@ -17,12 +18,13 @@
 namespace Tomulo {
     class Pipeline {
         public:
-            Pipeline(Tomulo::Device* device, Tomulo::Renderpass* renderpass);
+            Pipeline(Tomulo::Device* device, Tomulo::Descriptors* descriptors, Tomulo::Renderpass* renderpass);
             ~Pipeline();
             VkPipeline get();
         private:
             Tomulo::Device* device;
             Tomulo::Renderpass* renderpass;
+            Tomulo::Descriptors* descriptors;
             std::vector<char> readShader(const std::string& filename);
             VkShaderModule createShaderModule(const std::vector<char>& code);
             VkShaderModule vertShaderModule;
