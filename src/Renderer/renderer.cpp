@@ -14,7 +14,7 @@ namespace Tomulo {
         pipeline = new Tomulo::Pipeline(device, renderpass);
         framebuffers = new Tomulo::Framebuffers(device, renderpass, swapchain, imageViews);
         commandpool = new Tomulo::CommandPool(device);
-        vertexbuffer = new Tomulo::VertexBuffer(device);
+        vertexbuffer = new Tomulo::VertexBuffer(device, commandpool);
         commandbuffers = new Tomulo::CommandBuffers(device, swapchain, renderpass, pipeline, framebuffers, commandpool);
         synobjects = new Tomulo::SynObjects(device);
     }

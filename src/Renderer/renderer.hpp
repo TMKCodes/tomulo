@@ -15,10 +15,10 @@
 #include "renderpass.hpp"
 #include "pipeline.hpp"
 #include "framebuffers.hpp"
-#include "command.hpp"
+#include "commandpool.hpp"
 #include "vertexbuffer.hpp"
+#include "commandbuffer.hpp"
 #include "synobjects.hpp"
-
 
 
 namespace Tomulo {

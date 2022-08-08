@@ -11,17 +11,7 @@
 #include "pipeline.hpp"
 #include "framebuffers.hpp"
 
-
 namespace Tomulo {
-    class CommandPool {
-        public:
-            CommandPool(Tomulo::Device* device);
-            ~CommandPool();
-            VkCommandPool get();
-        private:
-            Tomulo::Device* device;
-            VkCommandPool commandPool;
-    };
     class CommandBuffers {
         public:
             CommandBuffers(Tomulo::Device* device, Tomulo::SwapChain* swapchain, Tomulo::Renderpass* renderpass, Tomulo::Pipeline* pipeline, Tomulo::Framebuffers* framebuffers, Tomulo::CommandPool* commandpool);

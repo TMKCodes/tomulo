@@ -1,24 +1,6 @@
-#include "command.hpp"
+#include "commandbuffer.hpp"
 
 namespace Tomulo {
-    CommandPool::CommandPool(Tomulo::Device* device) : device{device} {
-        Device::QueueFamilyIndices queueFamilyIndices = device->findQueueFamilies(device->physical());
-        VkCommandPoolCreateInfo poolInfo{};
-        poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-        poolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
-        poolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
-        if(vkCreateCommandPool(device->logical(), &poolInfo, nullptr, &commandPool) != VK_SUCCESS) {
-            throw std::runtime_error("Failed to create command pool!");
-        }
-    }
-    CommandPool::~CommandPool() {
-        vkDestroyCommandPool(device->logical(), commandPool, nullptr);
-    }
-
-    VkCommandPool CommandPool::get() {
-        return commandPool;
-    }
-
     CommandBuffers::CommandBuffers(Tomulo::Device* device, Tomulo::SwapChain* swapchain, Tomulo::Renderpass* renderpass, Tomulo::Pipeline* pipeline, Tomulo::Framebuffers* framebuffers, Tomulo::CommandPool* commandpool) : device{device}, swapchain{swapchain}, renderpass{renderpass}, pipeline{pipeline}, framebuffers{framebuffers}, commandpool{commandpool} {
         commandBuffers.resize(MAX_FRAMES_IN_FLIGHT);
         VkCommandBufferAllocateInfo allocInfo{};

@@ -3,10 +3,9 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
-#include <array>
-#include <vector>
 
-#include "device.hpp"
+#include "buffer.hpp"
+#include "commandpool.hpp"
 
 namespace Tomulo {
     struct Vertex {
@@ -43,13 +42,15 @@ namespace Tomulo {
     };
     class VertexBuffer {
         public:
-            VertexBuffer(Tomulo::Device* device);
+            VertexBuffer(Tomulo::Device* device, Tomulo::CommandPool* commandpool);
             ~VertexBuffer();
             VkBuffer get();
-            uint32_t  findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
         private:
+            Tomulo::CommandPool* commandpool;
             Tomulo::Device* device;
-            VkBuffer vertexBuffer;
-            VkDeviceMemory vertexBufferMemory;
+            Tomulo::Buffer* vertexBuffer;
+            Tomulo::Buffer* stagingBuffer;
+            VkDeviceSize bufferSize;
+            void copyBuffer();
     };
 }

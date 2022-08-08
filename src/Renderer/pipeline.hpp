@@ -10,6 +10,7 @@
 
 #include "device.hpp"
 #include "renderpass.hpp"
+#include "commandpool.hpp"
 #include "vertexbuffer.hpp"
 
 
