@@ -63,7 +63,7 @@ namespace Tomulo {
             // Remove index buffer binding and uncomment vkCmdDraw to draw unindexed.
             vkCmdBindIndexBuffer(commandBuffers[currentFrame], indexBuffer->get(), 0, VK_INDEX_TYPE_UINT16);
             
-            vkCmdDraw(commandBuffers[currentFrame], static_cast<uint32_t>(vertexBuffer->vertices.size()), 1, 0, 0);
+            //vkCmdDraw(commandBuffers[currentFrame], static_cast<uint32_t>(vertexBuffer->vertices.size()), 1, 0, 0);
             vkCmdDrawIndexed(commandBuffers[currentFrame], static_cast<uint32_t>(indexBuffer->indices.size()), 1, 0, 0, 0);
         vkCmdEndRenderPass(commandBuffers[currentFrame]);
 
