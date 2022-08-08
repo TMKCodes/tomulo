@@ -2,11 +2,15 @@
 
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 #include <vector>
 #include <fstream>
+#include <array>
+
 
 #include "device.hpp"
 #include "renderpass.hpp"
+#include "vertexbuffer.hpp"
 
 
 namespace Tomulo {

@@ -39,7 +39,7 @@ namespace Tomulo {
     void CommandBuffers::reset(uint32_t currentFrame) {
         vkResetCommandBuffer(commandBuffers[currentFrame], 0);
     }
-    void CommandBuffers::record(std::vector<VkFramebuffer> swapchainFrameBuffers, VkExtent2D swapchainExtent, uint32_t imageIndex, uint32_t currentFrame) {
+    void CommandBuffers::record(std::vector<VkFramebuffer> swapchainFrameBuffers, VkExtent2D swapchainExtent, VkBuffer vertexBuffer, uint32_t imageIndex, uint32_t currentFrame) {
         VkCommandBufferBeginInfo beginInfo{};
         beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 
@@ -75,8 +75,11 @@ namespace Tomulo {
             scissor.extent = swapchainExtent;
             vkCmdSetScissor(commandBuffers[currentFrame], 0, 1, &scissor);            
 
-            vkCmdDraw(commandBuffers[currentFrame], 3, 1, 0, 0);
+            VkBuffer vertexBuffers[] = {vertexBuffer};
+            VkDeviceSize offsets[] = {0};
+            vkCmdBindVertexBuffers(commandBuffers[currentFrame], 0, 1, vertexBuffers, offsets);
 
+            vkCmdDraw(commandBuffers[currentFrame], static_cast<uint32_t>(vertices.size()), 1, 0, 0);
         vkCmdEndRenderPass(commandBuffers[currentFrame]);
 
         if (vkEndCommandBuffer(commandBuffers[currentFrame]) != VK_SUCCESS) {

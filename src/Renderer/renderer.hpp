@@ -2,6 +2,7 @@
 
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 #include <vector>
 #include <iostream>
 #include <cstring>
@@ -15,6 +16,7 @@
 #include "pipeline.hpp"
 #include "framebuffers.hpp"
 #include "command.hpp"
+#include "vertexbuffer.hpp"
 #include "synobjects.hpp"
 
 
@@ -38,6 +40,7 @@ namespace Tomulo {
             Tomulo::Pipeline* pipeline;
             Tomulo::Framebuffers* framebuffers;
             Tomulo::CommandPool* commandpool;
+            Tomulo::VertexBuffer* vertexbuffer;
             Tomulo::CommandBuffers* commandbuffers;
             Tomulo::SynObjects* synobjects;
             VkInstance instance;

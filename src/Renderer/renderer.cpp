@@ -14,12 +14,14 @@ namespace Tomulo {
         pipeline = new Tomulo::Pipeline(device, renderpass);
         framebuffers = new Tomulo::Framebuffers(device, renderpass, swapchain, imageViews);
         commandpool = new Tomulo::CommandPool(device);
+        vertexbuffer = new Tomulo::VertexBuffer(device);
         commandbuffers = new Tomulo::CommandBuffers(device, swapchain, renderpass, pipeline, framebuffers, commandpool);
         synobjects = new Tomulo::SynObjects(device);
     }
     Renderer::~Renderer() {
         delete synobjects;
         delete commandbuffers;
+        delete vertexbuffer;
         delete commandpool;
         delete framebuffers;
         delete pipeline;
@@ -123,7 +125,7 @@ namespace Tomulo {
         vkResetFences(device->logical(), 1, &synobjects->inFlightFences[currentFrame]);
 
         commandbuffers->reset(currentFrame);
-        commandbuffers->record(framebuffers->get(), swapchain->getSwapchainExtent(), imageIndex, currentFrame);
+        commandbuffers->record(framebuffers->get(), swapchain->getSwapchainExtent(), vertexbuffer->get(), imageIndex, currentFrame);
 
         VkSubmitInfo submitInfo{};
         submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
